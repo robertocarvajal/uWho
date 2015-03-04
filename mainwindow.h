@@ -24,6 +24,8 @@ private slots:
 
     void on_webcamButton_clicked();
 
+    void on_dirpicButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 //    cv::Mat detectAndDisplay(cv::Mat);
