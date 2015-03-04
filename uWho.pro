@@ -13,11 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    webget.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    webget.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    webget.ui
 
 
 INCLUDEPATH += /home/josh/OpenCV/opencv/include/opencv/

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "webget.h"
 
 #include <QtCore>
 #include <QFileDialog>
@@ -38,10 +39,11 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap webcam("/home/josh/projects/uWho/webcam.png");
     QPixmap videofile("/home/josh/projects/uWho/videofile.png");
     QPixmap dirpicfile("/home/josh/projects/uWho/dirpics.png");
+    QPixmap ipfile("/home/josh/projects/uWho/internet-cloud-icon.jpg");
     ui->webcamButton->setIcon(webcam);
     ui->videofileButton->setIcon(videofile);
     ui->dirpicButton->setIcon(dirpicfile);
-
+    ui->ipButton->setIcon(ipfile);
 }
 
 
@@ -384,4 +386,11 @@ void MainWindow::on_dirpicButton_clicked()
     qDebug() << "Done processing files";
     model->save(face_file);
     cv::destroyWindow("VidWindow");
+}
+
+void MainWindow::on_ipButton_clicked()
+{
+    webget webgetwindow;
+    webgetwindow.setModal(true);
+    webgetwindow.exec();
 }

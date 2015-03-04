@@ -26,6 +26,8 @@ private slots:
 
     void on_dirpicButton_clicked();
 
+    void on_ipButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 //    cv::Mat detectAndDisplay(cv::Mat);
