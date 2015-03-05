@@ -30,9 +30,9 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>videofile.png</normaloff>
-         <normalon>videofile.png</normalon>videofile.png</iconset>
+        <iconset resource="resources.qrc">
+         <normaloff>:/icons/icons/videofile.png</normaloff>
+         <normalon>:/icons/icons/videofile.png</normalon>:/icons/icons/videofile.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -67,9 +67,9 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>webcam.png</normaloff>
-         <normalon>webcam.png</normalon>webcam.png</iconset>
+        <iconset resource="resources.qrc">
+         <normaloff>:/icons/icons/webcam.png</normaloff>
+         <normalon>:/icons/icons/webcam.png</normalon>:/icons/icons/webcam.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -109,7 +109,8 @@
        <property name="icon">
         <iconset>
          <normaloff>dirpics.png</normaloff>
-         <normalon>dirpics.png</normalon>dirpics.png</iconset>
+         <normalon>:/icons/icons/dirpics.png</normalon>
+         <disabledoff>:/icons/icons/dirpics.png</disabledoff>dirpics.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -128,7 +129,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>439</x>
@@ -145,7 +146,9 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>internet-cloud-icon.jpg</normaloff>internet-cloud-icon.jpg</iconset>
+         <normaloff>internet-cloud-icon.jpg</normaloff>
+         <normalon>:/icons/icons/internet-cloud-icon.jpg</normalon>
+         <disabledoff>:/icons/icons/internet-cloud-icon.jpg</disabledoff>internet-cloud-icon.jpg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -178,6 +181,8 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

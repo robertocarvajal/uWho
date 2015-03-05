@@ -10,7 +10,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = uWho
 TEMPLATE = app
-QMAKE_LFLAGS += -XLinker -Bstatic
 
 
 SOURCES += main.cpp\
@@ -37,3 +36,6 @@ LIBS += -lopencv_objdetect
 LIBS += -lopencv_contrib
 LIBS += -lopencv_legacy
 LIBS += -lopencv_flann
+
+RESOURCES += \
+    resources.qrc

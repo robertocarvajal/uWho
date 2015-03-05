@@ -17,8 +17,8 @@
 #include <opencv2/objdetect/objdetect.hpp>
 
 /** Global variables **/
-std::string faceCascadeName = "lbpcascade_frontalface.xml";
-std::string eyesCascadeName = "haarcascade_eye_tree_eyeglasses.xml";
+std::string faceCascadeName = ":/cascades/lbpcascade_frontalface.xml";
+std::string eyesCascadeName = ":/cascades/haarcascade_eye_tree_eyeglasses.xml";
 cv::CascadeClassifier faceCascade;
 cv::CascadeClassifier eyesCascade;
 std::string face_file = (QDir::homePath() + QString("/.uWho/face.xml")).toUtf8().constData();
@@ -37,10 +37,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QPixmap webcam("webcam.png");
-    QPixmap videofile("videofile.png");
-    QPixmap dirpicfile("dirpics.png");
-    QPixmap ipfile("internet-cloud-icon.jpg");
+    QPixmap webcam(":/icons/webcam.png");
+    QPixmap videofile(":/icons/videofile.png");
+    QPixmap dirpicfile(":/icons/dirpics.png");
+    QPixmap ipfile(":/icons/internet-cloud-icon.jpg");
     ui->webcamButton->setIcon(webcam);
     ui->videofileButton->setIcon(videofile);
     ui->dirpicButton->setIcon(dirpicfile);
@@ -90,29 +90,29 @@ void MainWindow::on_videofileButton_clicked()
         qDebug() << "Generating starting model..." ;
         vector<cv::Mat> images (10);
         vector<int> labels (10);
-        images[0] = (imread("startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[0] = (imread(":/startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[0] = 0;
-        images[1] = (imread("startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[1] = (imread(":/startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[1] = 0;
-        images[2] = (imread("startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[2] = (imread(":/startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[2] = 0;
-        images[3] = (imread("startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[3] = (imread(":/startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[3] = 0;
-        images[4] = (imread("startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[4] = (imread(":/startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[4] = 0;
-        images[5] = (imread("startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[5] = (imread(":/startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[5] = 0;
-        images[6] = (imread("startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[6] = (imread(":/startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[6] = 0;
-        images[7] = (imread("startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[7] = (imread(":/startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[7] = 0;
-        images[8] = (imread("startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[8] = (imread(":/startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[8] = 0;
-        images[9] = (imread("startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[9] = (imread(":/startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[9] = 0;
         model->train(images, labels);
 
-        cv::Mat testingImage = (imread("startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
+        cv::Mat testingImage = (imread(":/startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
         int predicted = -1;  // Sanity check. We throw a face I know is mine to the predictor.
         double confidence ;
         model->predict(testingImage, predicted, confidence);
@@ -191,30 +191,30 @@ void MainWindow::on_webcamButton_clicked()
         qDebug() << "Generating starting model..." ;
         vector<cv::Mat> images (10);
         vector<int> labels (10);
-        images[0] = (imread("startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[0] = (imread(":/startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[0] = 0;
-        images[1] = (imread("startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[1] = (imread(":/startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[1] = 0;
-        images[2] = (imread("startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[2] = (imread(":/startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[2] = 0;
-        images[3] = (imread("startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[3] = (imread(":/startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[3] = 0;
-        images[4] = (imread("startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[4] = (imread(":/startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[4] = 0;
-        images[5] = (imread("startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[5] = (imread(":/startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[5] = 0;
-        images[6] = (imread("startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[6] = (imread(":/startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[6] = 0;
-        images[7] = (imread("startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[7] = (imread(":/startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[7] = 0;
-        images[8] = (imread("startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[8] = (imread(":/startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[8] = 0;
-        images[9] = (imread("startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[9] = (imread(":/startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[9] = 0;
         model->train(images, labels);
         qDebug() << "Training successful";
 
-        cv::Mat testingImage = (imread("startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
+        cv::Mat testingImage = (imread(":/startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
         int predicted = -1;  // Sanity check. We throw a face I know is mine to the predictor.
         double confidence ;
         model->predict(testingImage, predicted, confidence);
@@ -289,29 +289,29 @@ void MainWindow::on_dirpicButton_clicked()
         qDebug() << "Generating starting model..." ;
         vector<cv::Mat> images (10);
         vector<int> labels (10);
-        images[0] = (imread("startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[0] = (imread(":/startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[0] = 0;
-        images[1] = (imread("startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[1] = (imread(":/startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[1] = 0;
-        images[2] = (imread("startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[2] = (imread(":/startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[2] = 0;
-        images[3] = (imread("startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[3] = (imread(":/startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[3] = 0;
-        images[4] = (imread("startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[4] = (imread(":/startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[4] = 0;
-        images[5] = (imread("startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[5] = (imread(":/startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[5] = 0;
-        images[6] = (imread("startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[6] = (imread(":/startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[6] = 0;
-        images[7] = (imread("startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[7] = (imread(":/startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[7] = 0;
-        images[8] = (imread("startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[8] = (imread(":/startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[8] = 0;
-        images[9] = (imread("startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[9] = (imread(":/startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[9] = 0;
         model->train(images, labels);
 
-        cv::Mat testingImage = (imread("startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
+        cv::Mat testingImage = (imread(":/startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
         int predicted = -1;  // Sanity check. We throw a face I know is mine to the predictor.
         double confidence ;
         model->predict(testingImage, predicted, confidence);
