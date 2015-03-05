@@ -17,12 +17,13 @@
 #include <opencv2/objdetect/objdetect.hpp>
 
 /** Global variables **/
-std::string faceCascadeName = "/home/josh/projects/uWho/lbpcascade_frontalface.xml";
-std::string eyesCascadeName = "/home/josh/projects/uWho/haarcascade_eye_tree_eyeglasses.xml";
+std::string faceCascadeName = "lbpcascade_frontalface.xml";
+std::string eyesCascadeName = "haarcascade_eye_tree_eyeglasses.xml";
 cv::CascadeClassifier faceCascade;
 cv::CascadeClassifier eyesCascade;
-std::string face_file = "/home/josh/projects/uWho/face.xml";
-QFile face(QDir::homePath() + QString("/projects/uWho/face.xml") );
+std::string face_file = (QDir::homePath() + QString("/.uWho/face.xml")).toUtf8().constData();
+QFile face(QDir::homePath() + QString("/.uWho/face.xml") );
+QDir uWhoconfig( QDir::homePath() + QString("/.uWho/") );
 double lbphThreshold = 60.0 ;
 /** end of global variables **/
 
@@ -36,10 +37,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QPixmap webcam("/home/josh/projects/uWho/webcam.png");
-    QPixmap videofile("/home/josh/projects/uWho/videofile.png");
-    QPixmap dirpicfile("/home/josh/projects/uWho/dirpics.png");
-    QPixmap ipfile("/home/josh/projects/uWho/internet-cloud-icon.jpg");
+    QPixmap webcam("webcam.png");
+    QPixmap videofile("videofile.png");
+    QPixmap dirpicfile("dirpics.png");
+    QPixmap ipfile("internet-cloud-icon.jpg");
     ui->webcamButton->setIcon(webcam);
     ui->videofileButton->setIcon(videofile);
     ui->dirpicButton->setIcon(dirpicfile);
@@ -54,10 +55,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_videofileButton_clicked()
 {
-
-
-
-    //Below is the open file dialog, and saves said file selected to videoFileNames
+    // Below is the open file dialog, and saves said file selected to videoFileNames
     QFileDialog videoFile(this);
     videoFile.setFileMode(QFileDialog::AnyFile);
     videoFile.setNameFilter(tr("Images (*.avi *.mpg *.mpeg *.mkv *.webm *.ogv *.mp4)"));
@@ -67,6 +65,7 @@ void MainWindow::on_videofileButton_clicked()
         vFN = videoFile.selectedFiles();
     }
 
+    // Check for valid file name. If you cancel, it returns instead of crashes
     QString videoFileName;
     if(vFN.size()!=NULL){
         videoFileName = vFN.at(0);
@@ -74,13 +73,14 @@ void MainWindow::on_videofileButton_clicked()
         return;
     }
 
+    // Attempt to get total frames in video. This may not be accurate, according to OpenCV devs
     qDebug() << ( videoFileName.toUtf8().constData() ) ;
     cv::VideoCapture cap = cv::VideoCapture(( videoFileName.toUtf8().constData() ));
     qDebug() << "Video loaded" ;
     long int videoFrameCount = cap.get(CV_CAP_PROP_FRAME_COUNT);
 
-    // Startup of Recognizer defaults
 
+    // Starts the Classifier, and then tests said classifier with my default data
     std::srand(std::time(NULL));
     Ptr<cv::FaceRecognizer> model = cv::createLBPHFaceRecognizer(1,8,8,8, lbphThreshold);
     if (face.exists()){
@@ -90,34 +90,35 @@ void MainWindow::on_videofileButton_clicked()
         qDebug() << "Generating starting model..." ;
         vector<cv::Mat> images (10);
         vector<int> labels (10);
-        images[0] = (imread("/home/josh/projects/uWho/startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[0] = (imread("startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[0] = 0;
-        images[1] = (imread("/home/josh/projects/uWho/startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[1] = (imread("startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[1] = 0;
-        images[2] = (imread("/home/josh/projects/uWho/startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[2] = (imread("startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[2] = 0;
-        images[3] = (imread("/home/josh/projects/uWho/startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[3] = (imread("startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[3] = 0;
-        images[4] = (imread("/home/josh/projects/uWho/startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[4] = (imread("startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[4] = 0;
-        images[5] = (imread("/home/josh/projects/uWho/startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[5] = (imread("startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[5] = 0;
-        images[6] = (imread("/home/josh/projects/uWho/startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[6] = (imread("startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[6] = 0;
-        images[7] = (imread("/home/josh/projects/uWho/startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[7] = (imread("startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[7] = 0;
-        images[8] = (imread("/home/josh/projects/uWho/startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[8] = (imread("startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[8] = 0;
-        images[9] = (imread("/home/josh/projects/uWho/startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[9] = (imread("startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[9] = 0;
         model->train(images, labels);
 
-        cv::Mat testingImage = (imread("/home/josh/projects/uWho/startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
+        cv::Mat testingImage = (imread("startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
         int predicted = -1;  // Sanity check. We throw a face I know is mine to the predictor.
         double confidence ;
         model->predict(testingImage, predicted, confidence);
         qDebug() << "Testing predicted/confidence: " << predicted << confidence ;
     }
+
 
     cv::namedWindow("VidWindow");
     cv::Mat frame;
@@ -170,6 +171,7 @@ void MainWindow::on_videofileButton_clicked()
         cv::putText(frame, b.str(), cv::Point((cap.get(CV_CAP_PROP_FRAME_WIDTH)-61),20),FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255,255,255), 1,8, false);
         imshow("VidWindow" ,frame);
     }while((cv::waitKey(1)<30) || frame.empty() );
+    qDebug() << (QDir::homePath() + QString("/.uWho/face.xml")) ;
     model->save(face_file);
     cv::destroyWindow("VidWindow");
 }
@@ -189,30 +191,30 @@ void MainWindow::on_webcamButton_clicked()
         qDebug() << "Generating starting model..." ;
         vector<cv::Mat> images (10);
         vector<int> labels (10);
-        images[0] = (imread("/home/josh/projects/uWho/startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[0] = (imread("startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[0] = 0;
-        images[1] = (imread("/home/josh/projects/uWho/startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[1] = (imread("startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[1] = 0;
-        images[2] = (imread("/home/josh/projects/uWho/startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[2] = (imread("startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[2] = 0;
-        images[3] = (imread("/home/josh/projects/uWho/startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[3] = (imread("startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[3] = 0;
-        images[4] = (imread("/home/josh/projects/uWho/startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[4] = (imread("startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[4] = 0;
-        images[5] = (imread("/home/josh/projects/uWho/startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[5] = (imread("startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[5] = 0;
-        images[6] = (imread("/home/josh/projects/uWho/startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[6] = (imread("startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[6] = 0;
-        images[7] = (imread("/home/josh/projects/uWho/startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[7] = (imread("startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[7] = 0;
-        images[8] = (imread("/home/josh/projects/uWho/startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[8] = (imread("startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[8] = 0;
-        images[9] = (imread("/home/josh/projects/uWho/startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[9] = (imread("startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[9] = 0;
         model->train(images, labels);
         qDebug() << "Training successful";
 
-        cv::Mat testingImage = (imread("/home/josh/projects/uWho/startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
+        cv::Mat testingImage = (imread("startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
         int predicted = -1;  // Sanity check. We throw a face I know is mine to the predictor.
         double confidence ;
         model->predict(testingImage, predicted, confidence);
@@ -266,6 +268,7 @@ void MainWindow::on_webcamButton_clicked()
 
             imshow("VidWindow" ,frame);}
     }while(cv::waitKey(30)<30);
+    qDebug() << (QDir::homePath() + QString("/.uWho/face.xml")) ;
     model->save(face_file);
     cv::destroyWindow("VidWindow");
 }
@@ -286,29 +289,29 @@ void MainWindow::on_dirpicButton_clicked()
         qDebug() << "Generating starting model..." ;
         vector<cv::Mat> images (10);
         vector<int> labels (10);
-        images[0] = (imread("/home/josh/projects/uWho/startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[0] = (imread("startingfaces/josh1.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[0] = 0;
-        images[1] = (imread("/home/josh/projects/uWho/startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[1] = (imread("startingfaces/josh2.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[1] = 0;
-        images[2] = (imread("/home/josh/projects/uWho/startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[2] = (imread("startingfaces/josh3.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[2] = 0;
-        images[3] = (imread("/home/josh/projects/uWho/startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[3] = (imread("startingfaces/josh4.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[3] = 0;
-        images[4] = (imread("/home/josh/projects/uWho/startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[4] = (imread("startingfaces/josh5.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[4] = 0;
-        images[5] = (imread("/home/josh/projects/uWho/startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[5] = (imread("startingfaces/josh6.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[5] = 0;
-        images[6] = (imread("/home/josh/projects/uWho/startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[6] = (imread("startingfaces/josh7.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[6] = 0;
-        images[7] = (imread("/home/josh/projects/uWho/startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[7] = (imread("startingfaces/josh8.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[7] = 0;
-        images[8] = (imread("/home/josh/projects/uWho/startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[8] = (imread("startingfaces/josh9.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[8] = 0;
-        images[9] = (imread("/home/josh/projects/uWho/startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
+        images[9] = (imread("startingfaces/josh10.png", CV_LOAD_IMAGE_GRAYSCALE));
         labels[9] = 0;
         model->train(images, labels);
 
-        cv::Mat testingImage = (imread("/home/josh/projects/uWho/startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
+        cv::Mat testingImage = (imread("startingfaces/josh11.png", CV_LOAD_IMAGE_GRAYSCALE));
         int predicted = -1;  // Sanity check. We throw a face I know is mine to the predictor.
         double confidence ;
         model->predict(testingImage, predicted, confidence);
@@ -384,6 +387,7 @@ void MainWindow::on_dirpicButton_clicked()
         }
     }
     qDebug() << "Done processing files";
+    qDebug() << (QDir::homePath() + QString("/.uWho/face.xml")) ;
     model->save(face_file);
     cv::destroyWindow("VidWindow");
 }
