@@ -17,6 +17,7 @@
         <file>internet-cloud-icon.jpg</file>
         <file>videofile.png</file>
         <file>webcam.png</file>
+        <file>configure-gears.png</file>
     </qresource>
     <qresource prefix="/cascades">
         <file>haarcascade_eye_tree_eyeglasses.xml</file>

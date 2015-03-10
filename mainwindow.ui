@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>583</width>
-    <height>206</height>
+    <width>574</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset>
          <normaloff>:/icons/icons/videofile.png</normaloff>
          <normalon>:/icons/icons/videofile.png</normalon>:/icons/icons/videofile.png</iconset>
        </property>
@@ -67,7 +67,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset>
          <normaloff>:/icons/icons/webcam.png</normaloff>
          <normalon>:/icons/icons/webcam.png</normalon>:/icons/icons/webcam.png</iconset>
        </property>
@@ -167,13 +167,45 @@
      </item>
     </layout>
    </widget>
+   <widget class="QPushButton" name="configureButton">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>200</y>
+      <width>99</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>64</width>
+      <height>64</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>280</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Configure...</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>583</width>
+     <width>574</width>
      <height>20</height>
     </rect>
    </property>
@@ -181,8 +213,6 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

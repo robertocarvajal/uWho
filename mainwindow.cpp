@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "webget.h"
+#include "config.h"
 
 #include <QtCore>
 #include <QFileDialog>
@@ -17,8 +18,8 @@
 #include <opencv2/objdetect/objdetect.hpp>
 
 /** Global variables **/
-std::string faceCascadeName = ":/cascades/lbpcascade_frontalface.xml";
-std::string eyesCascadeName = ":/cascades/haarcascade_eye_tree_eyeglasses.xml";
+std::string faceCascadeName = "lbpcascade_frontalface.xml";
+std::string eyesCascadeName = "haarcascade_eye_tree_eyeglasses.xml";
 cv::CascadeClassifier faceCascade;
 cv::CascadeClassifier eyesCascade;
 std::string face_file = (QDir::homePath() + QString("/.uWho/face.xml")).toUtf8().constData();
@@ -41,10 +42,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap videofile(":/icons/videofile.png");
     QPixmap dirpicfile(":/icons/dirpics.png");
     QPixmap ipfile(":/icons/internet-cloud-icon.jpg");
+    QPixmap configurefile(":/icons/configure-gears.png");
     ui->webcamButton->setIcon(webcam);
     ui->videofileButton->setIcon(videofile);
     ui->dirpicButton->setIcon(dirpicfile);
     ui->ipButton->setIcon(ipfile);
+    ui->configureButton->setIcon(configurefile);
 }
 
 
@@ -148,6 +151,7 @@ void MainWindow::on_videofileButton_clicked()
                 cv::putText(frame, faceString, cv::Point(faces[i].x, (faces[i].y+10)),FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255,255,255), 1,8, false);
 
                 eyesCascade.detectMultiScale( facePicture[0], eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30) );
+                long int timeEncode = time(NULL);
                 if (eyes.size() != 0){
                     cv::cvtColor(facePicture[0], facePicture[0], CV_BGR2GRAY); // colorspace change to gray
                     int predicted = -1;
@@ -221,17 +225,29 @@ void MainWindow::on_webcamButton_clicked()
         qDebug() << "Testing predicted/confidence: " << predicted << confidence ;
     }
 
+    QSettings settings("JoshConwaySoft", "uWho");
+    QFile facetime(QDir::homePath() + QString("/.uWho/facetime.xml"));
+         if (!facetime.open(QIODevice::WriteOnly | QIODevice::Text))
+             return;
+    QTextStream facetimeoutput(&facetime);
+
     cv::namedWindow("VidWindow");
-    cv::VideoCapture cap = cv::VideoCapture(0);
-    cap.set(CV_CAP_PROP_FRAME_WIDTH, 800 );
-    cap.set(CV_CAP_PROP_FRAME_HEIGHT, 600 );
+
+
+    cv::VideoCapture cap = cv::VideoCapture(settings.value("Video/Device").toString().toInt() );
+    cap.set(CV_CAP_PROP_FRAME_WIDTH, settings.value("Video/Resolution_X").toString().toInt() );
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT, settings.value("Video/Resolution_Y").toString().toInt() );
     cv::Mat frame;
+    faceCascade.load(faceCascadeName);
+    eyesCascade.load(eyesCascadeName);
+
     do{
         cap >> frame;
         if(!frame.empty()){
-            cv::blur(frame, frame, cv::Size(3,3));
-            faceCascade.load(faceCascadeName);
-            eyesCascade.load(eyesCascadeName);
+            unsigned long int seconds= time(NULL);
+            //cv::blur(frame, frame, cv::Size(3,3));
+            //faceCascade.load(faceCascadeName);
+            //eyesCascade.load(eyesCascadeName);
             std::vector<cv::Rect> faces;
             cv::Mat frame_gray;
             cv::cvtColor(frame, frame_gray, CV_BGR2GRAY);
@@ -257,15 +273,15 @@ void MainWindow::on_webcamButton_clicked()
                     if (predicted == -1){
                         faceIndex[0] = std::rand()%30000;
                         model->update(facePicture,faceIndex); // If its not in the FaceRecognizer, add it
+                        facetimeoutput << faceIndex[0] << "," << seconds << "\n" ;
                     }else{
                         faceIndex[0] = predicted;
                         model->update(facePicture,faceIndex);  // if the face is already in, add this as another data point
+                        facetimeoutput << faceIndex[0] << "," << seconds << "\n" ;
                     }
-                    qDebug() << "face # " << predicted << confidence;
+                    qDebug() << "face # " << predicted << confidence << seconds   ;
                 }
             }
-
-
             imshow("VidWindow" ,frame);}
     }while(cv::waitKey(30)<30);
     qDebug() << (QDir::homePath() + QString("/.uWho/face.xml")) ;
@@ -397,4 +413,11 @@ void MainWindow::on_ipButton_clicked()
     webget webgetwindow;
     webgetwindow.setModal(true);
     webgetwindow.exec();
+}
+
+void MainWindow::on_configureButton_clicked()
+{
+    config configwindow;
+    configwindow.setModal(true);
+    configwindow.exec();
 }

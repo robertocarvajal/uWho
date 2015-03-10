@@ -28,6 +28,8 @@ private slots:
 
     void on_ipButton_clicked();
 
+    void on_configureButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 //    cv::Mat detectAndDisplay(cv::Mat);
