@@ -19,8 +19,4 @@
         <file>webcam.png</file>
         <file>configure-gears.png</file>
     </qresource>
-    <qresource prefix="/cascades">
-        <file>haarcascade_eye_tree_eyeglasses.xml</file>
-        <file>lbpcascade_frontalface.xml</file>
-    </qresource>
 </RCC>

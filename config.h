@@ -26,8 +26,8 @@ private slots:
 
 private:
     Ui::config *ui;
-    QVector<int> getSupportedVideoResolutions(int);
     void SaveSettings(QString, QString, QString);
+    QVector<int> getSupportedVideoResolutions(int);
 };
 
 #endif // CONFIG_H

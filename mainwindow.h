@@ -32,7 +32,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-//    cv::Mat detectAndDisplay(cv::Mat);
+    void SaveSettings(QString, QString);
 };
 
 #endif // MAINWINDOW_H
