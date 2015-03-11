@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <cv.h>
-#include <highgui.h>
 #include <QtCore>
 #include <opencv2/objdetect/objdetect.hpp>
 
