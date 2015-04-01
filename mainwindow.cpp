@@ -149,7 +149,7 @@ void MainWindow::on_videofileButton_clicked()
                 std::vector<cv::Mat> facePicture (1);
                 std::vector<int> faceIndex (1);
                 std::vector<Rect> eyes;
-                facePicture[0] = frame(faces[i]);   // Gets the face only as the variable facePicture
+                facePicture[0] = frame_gray(faces[i]);   // Gets the face only as the variable facePicture
 
                 cv::rectangle(frame, faces[i], cv::Scalar(255,0,255), 1, 8, 0); // Draws rectangles on webcam video
                 string faceString = static_cast<ostringstream*>( &(ostringstream() << i) )->str();
@@ -158,7 +158,6 @@ void MainWindow::on_videofileButton_clicked()
                 eyesCascade.detectMultiScale( facePicture[0], eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30) );
                 long int timeEncode = time(NULL);
                 if (eyes.size() != 0){
-                    cv::cvtColor(facePicture[0], facePicture[0], CV_BGR2GRAY); // colorspace change to gray
                     int predicted = -1;
                     double confidence ;
                     model->predict(facePicture[0], predicted, confidence); // Check the machine learner and ask if it's seen this face before
@@ -290,13 +289,12 @@ void MainWindow::on_webcamButton_clicked()
             std::vector<Rect> eyes;
 
             for(int i = 0; i < faces.size(); i++){
-                facePicture[0] = frame(faces[i]);   // Gets the face only as the variable facePicture
+                facePicture[0] = frame_gray(faces[i]);   // Gets the face only as the variable facePicture
                 cv::rectangle(frame, faces[i], cv::Scalar(255,0,255), 1, 8, 0); // Draws rectangles on webcam video
                 string faceString = static_cast<ostringstream*>( &(ostringstream() << i) )->str();
                 cv::putText(frame, faceString, cv::Point(faces[i].x, (faces[i].y+30)),FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255,255,255), 1,8, false);
                 eyesCascade.detectMultiScale( facePicture[0], eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30) );
                 if (eyes.size() != 0){
-                    cv::cvtColor(facePicture[0], facePicture[0], CV_BGR2GRAY); // colorspace change to gray
                     int predicted = -1;
                     double confidence ;
                     model->predict(facePicture[0], predicted, confidence); // Check the machine learner and ask if it's seen this face before
@@ -417,7 +415,7 @@ void MainWindow::on_dirpicButton_clicked()
             std::vector<cv::Mat> facePicture (1);
             std::vector<int> faceIndex (1);
             std::vector<Rect> eyes;
-            facePicture[0] = frame(faces[j]);   // Gets the face only as the variable facePicture
+            facePicture[0] = frame_gray(faces[j]);   // Gets the face only as the variable facePicture
 
             cv::rectangle(frame, faces[j], cv::Scalar(255,0,255), 1, 8, 0); // Draws rectangles on webcam video
             string faceString = static_cast<ostringstream*>( &(ostringstream() << j) )->str();
@@ -426,7 +424,6 @@ void MainWindow::on_dirpicButton_clicked()
             eyesCascade.detectMultiScale( facePicture[0], eyes, 1.1, 2, 0 |CV_HAAR_SCALE_IMAGE, Size(30, 30) );
 
             if (eyes.size() != 0){
-                cv::cvtColor(facePicture[0], facePicture[0], CV_BGR2GRAY); // colorspace change to gray
                 int predicted = -1;
                 double confidence ;
                 model->predict(facePicture[0], predicted, confidence); // Check the machine learner and ask if it's seen this face before
